@@ -1,7 +1,10 @@
 package fr.dalkia.dummyspringboot;
 
+import fr.dalkia.dummyspringboot.framework.annotation.Bean;
+
 import java.util.stream.Collectors;
 
+@Bean
 public class CommentServiceImpl {
     private final CommentRepository commentRepository;
 

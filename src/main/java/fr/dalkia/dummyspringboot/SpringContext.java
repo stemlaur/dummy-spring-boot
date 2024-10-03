@@ -1,9 +1,10 @@
 package fr.dalkia.dummyspringboot;
 
 import fr.dalkia.dummyspringboot.framework.NoSuchBeanDefinitionException;
+import fr.dalkia.dummyspringboot.framework.config.AnnotationConfigParser;
 import fr.dalkia.dummyspringboot.framework.config.BeanConfig;
 import fr.dalkia.dummyspringboot.framework.config.Config;
-import fr.dalkia.dummyspringboot.framework.config.ConfigParser;
+import fr.dalkia.dummyspringboot.framework.config.JSONConfigParser;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -15,7 +16,7 @@ public class SpringContext {
     private static final Map<Class, Object> CACHE = new HashMap<>();
 
     public static void initContext() throws IOException, ClassNotFoundException {
-        Config config = ConfigParser.parseConfig();
+        Config config = AnnotationConfigParser.parseConfig("fr.dalkia.dummyspringboot");
         for (BeanConfig bean : config.getBeans()) {
             buildBean(config, Class.forName(bean.getClazz()));
         }

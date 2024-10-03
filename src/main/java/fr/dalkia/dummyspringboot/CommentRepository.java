@@ -1,9 +1,12 @@
 package fr.dalkia.dummyspringboot;
 
+import fr.dalkia.dummyspringboot.framework.annotation.Bean;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Bean
 public class CommentRepository {
     private static final Map<Integer, Comment> COMMENTS = new HashMap<>();
 

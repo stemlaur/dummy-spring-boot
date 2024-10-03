@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public abstract class ConfigParser {
+public abstract class JSONConfigParser {
 
     public static Config parseConfig() throws IOException {
         String configContent = getConfigContent();
@@ -16,7 +16,7 @@ public abstract class ConfigParser {
     }
 
     private static String getConfigContent() throws IOException {
-        try (var in = ConfigParser.class.getResourceAsStream("/beans.json")) {
+        try (var in = JSONConfigParser.class.getResourceAsStream("/beans.json")) {
             return new String(in.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
