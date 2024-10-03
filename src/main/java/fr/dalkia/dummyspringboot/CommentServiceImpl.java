@@ -1,6 +1,7 @@
 package fr.dalkia.dummyspringboot;
 
 import fr.dalkia.dummyspringboot.framework.annotation.Bean;
+import fr.dalkia.dummyspringboot.framework.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ public class CommentServiceImpl {
         this.commentRepository = commentRepository;
     }
 
+    @Transactional
     public String joinAllComments() {
         return this.commentRepository.getAll().stream().map(Comment::comment)
                 .collect(Collectors.joining(", "));
