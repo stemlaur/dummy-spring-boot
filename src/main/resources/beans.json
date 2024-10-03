@@ -1,0 +1,10 @@
+{
+  "beans": [
+    {
+      "clazz": "fr.dalkia.dummyspringboot.CommentRepository"
+    },
+    {
+      "clazz": "fr.dalkia.dummyspringboot.CommentServiceImpl"
+    }
+  ]
+}
