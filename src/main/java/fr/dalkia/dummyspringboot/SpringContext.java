@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SpringContext {
 
-    private static final Map<Class, Object> CACHE = new HashMap<Class, Object>();
+    private static final Map<Class, Object> CACHE = new HashMap<>();
 
     public static <T> T getBean(Class<T> clazz) {
         if (CACHE.containsKey(clazz)) {

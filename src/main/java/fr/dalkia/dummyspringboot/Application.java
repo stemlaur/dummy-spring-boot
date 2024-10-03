@@ -11,5 +11,7 @@ public class Application {
         System.out.println(commentRepository);
         CommentServiceImpl commentService = SpringContext.getBean(CommentServiceImpl.class);
         System.out.println(commentService);
+
+        System.out.println(commentService.joinAllComments());
     }
 }
