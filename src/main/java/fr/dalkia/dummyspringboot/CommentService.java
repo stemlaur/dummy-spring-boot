@@ -1,22 +1,22 @@
 package fr.dalkia.dummyspringboot;
 
 import fr.dalkia.dummyspringboot.framework.annotation.Bean;
-import fr.dalkia.dummyspringboot.framework.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
 @Bean
-public class CommentServiceImpl {
+public class CommentService {
     private final CommentRepository commentRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 
     public String joinAllComments() {
         System.out.println("Joining all comments");
+        int numberOfComment = this.commentRepository.count();
         return this.commentRepository.getAll().stream().map(Comment::comment)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(", ")) + " nombre: " + numberOfComment;
     }
 
     @Override

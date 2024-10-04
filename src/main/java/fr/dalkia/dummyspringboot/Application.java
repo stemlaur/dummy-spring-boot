@@ -1,13 +1,15 @@
 package fr.dalkia.dummyspringboot;
 
+import fr.dalkia.dummyspringboot.framework.ApplicationContext;
+import fr.dalkia.dummyspringboot.framework.Spring;
+
 import java.io.IOException;
 
 public class Application {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        SpringContext.initContext();
+        ApplicationContext applicationContext = Spring.init(Application.class);
 
-        CommentServiceImpl commentService = SpringContext.getBean(CommentServiceImpl.class);
-        System.out.println(commentService);
+        CommentService commentService = applicationContext.getBean(CommentService.class);
 
         System.out.println(commentService.joinAllComments());
 
