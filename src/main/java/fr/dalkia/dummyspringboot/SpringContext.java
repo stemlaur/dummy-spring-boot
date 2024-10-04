@@ -1,19 +1,20 @@
 package fr.dalkia.dummyspringboot;
 
 import fr.dalkia.dummyspringboot.framework.NoSuchBeanDefinitionException;
+import fr.dalkia.dummyspringboot.framework.annotation.Transactional;
+import fr.dalkia.dummyspringboot.framework.aop.AnnotationProxyBuilder;
+import fr.dalkia.dummyspringboot.framework.aop.ProxyTransactionalInterceptor;
 import fr.dalkia.dummyspringboot.framework.config.AnnotationConfigParser;
 import fr.dalkia.dummyspringboot.framework.config.BeanConfig;
 import fr.dalkia.dummyspringboot.framework.config.Config;
-import fr.dalkia.dummyspringboot.framework.config.JSONConfigParser;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SpringContext {
-    private static final Map<Class, Object> CACHE = new HashMap<>();
+    private static final Map<Class<?>, Object> CACHE = new HashMap<>();
 
     public static void initContext() throws IOException, ClassNotFoundException {
         Config config = AnnotationConfigParser.parseConfig("fr.dalkia.dummyspringboot");
@@ -40,12 +41,20 @@ public class SpringContext {
             // Get constructor with no arguments
             Constructor<T> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-            T result = constructor.newInstance();
+            T result = AnnotationProxyBuilder.instrument(clazz, Transactional.class, ProxyTransactionalInterceptor.class)
+                    .newInstance();
             CACHE.put(clazz, result);
             return result;
         } catch (NoSuchMethodException e) {
             // Try finding a constructor with arguments
-            Constructor constructor = findConstructorWithArguments(clazz);
+
+            Class<? extends T> proxiedClass = null;
+            try {
+                proxiedClass = AnnotationProxyBuilder.instrument(clazz, Transactional.class, ProxyTransactionalInterceptor.class);
+            } catch (InstantiationException | IllegalAccessException ex) {
+                throw new RuntimeException(ex);
+            }
+            Constructor<?> constructor = findConstructorWithArguments(proxiedClass);
             if (constructor != null) {
                 try {
                     // Simulate dependency injection (replace with actual implementation)
@@ -62,8 +71,6 @@ public class SpringContext {
             }
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Error creating bean: " + clazz.getName(), e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
         }
     }
 

@@ -1,6 +1,7 @@
 package fr.dalkia.dummyspringboot;
 
 import fr.dalkia.dummyspringboot.framework.annotation.Bean;
+import fr.dalkia.dummyspringboot.framework.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,7 +17,14 @@ public class CommentRepository {
         COMMENTS.put(3, new Comment(3, "Mon commentaire 3"));
     }
 
+    @Transactional
     public Collection<Comment> getAll() {
+        System.out.println("Inside CommentRepository : getAll()");
         return COMMENTS.values();
+    }
+
+    public int count() {
+        System.out.println("Inside CommentRepository : count()");
+        return COMMENTS.size();
     }
 }

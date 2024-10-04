@@ -13,8 +13,8 @@ public class CommentServiceImpl {
         this.commentRepository = commentRepository;
     }
 
-    @Transactional
     public String joinAllComments() {
+        System.out.println("Joining all comments");
         return this.commentRepository.getAll().stream().map(Comment::comment)
                 .collect(Collectors.joining(", "));
     }
